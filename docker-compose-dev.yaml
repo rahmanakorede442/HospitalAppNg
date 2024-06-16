@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  hospital:
+    container_name: hospital
+    build:
+      context: ./hospital
+      dockerfile: Dockerfile.dev
+    # remember to remove the port
+    ports:
+      - "5002:3000"
+    volumes:
+      - ./hospital/src:/usr/src/app/src
+    # environment:
+    #   - PORT=80
+    #   - STORAGE_ACCOUNT_NAME=
+    #   - STORAGE_ACCOUNT_KEY=
+    restart: "no"
+
+  hospital_db: 
+    image: mongo
+    container_name: hospital_db
+    ports:
+      - "4003:27017"
+    volumes:
+      - ./docker/hospital_db:/data/db:rw
+    restart: always
+
+volumes:
+  database:
+networks:
+  hospital:
+    driver: bridge
