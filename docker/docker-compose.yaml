@@ -1,0 +1,5 @@
+version: "3.8"
+
+services:
+  hospital:
+    container_name: hospital
