@@ -10,9 +10,9 @@ services:
     ports:
       - "5002:3000"
     volumes:
-      - ./hospital/src:/usr/src/app/src
-    # environment:
-    #   - PORT=80
+      - ./hospital:/usr/src/app
+    environment:
+      - DATABASE_HOST=mongodb://hospital_db:27017/hospital
     #   - STORAGE_ACCOUNT_NAME=
     #   - STORAGE_ACCOUNT_KEY=
     restart: "no"
@@ -27,7 +27,7 @@ services:
     restart: always
 
 volumes:
-  database:
+  hospital_db:
 networks:
   hospital:
     driver: bridge
