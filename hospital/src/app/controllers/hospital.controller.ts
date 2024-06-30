@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   UsePipes,
   ValidationPipe,
   // HttpException,
@@ -16,6 +17,14 @@ import { HospitalDto } from '../dtos/hospital.dto';
 export class HospitalController {
   constructor(private service: HospitalService) {}
 
+  @Get('')
+  async index(@Query() request: any) {
+    const { limit, page } = request;
+    if (Number(limit) || Number(page))
+      return await this.service.index(Number(limit), Number(page));
+    return [];
+  }
+
   @Get(':id')
   async show(@Param('id') id: string) {
     //const is_valid = mongoose.Types.ObjectId.isValid(id); // better used in middleware
@@ -26,7 +35,6 @@ export class HospitalController {
   @Post()
   @UsePipes(new ValidationPipe())
   create(@Body() request: HospitalDto) {
-    console.log(request);
-    // this.service.create(request);
+    return this.service.create(request);
   }
 }

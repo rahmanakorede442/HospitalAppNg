@@ -1,4 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
+import { generate_hospital_number } from '../utils/random_number';
+
+export type HospitalDocument = Hospital & Document;
 
 @Schema()
 export class Hospital {
@@ -25,3 +29,8 @@ export class Hospital {
 }
 
 export const HospitalSchema = SchemaFactory.createForClass(Hospital);
+
+HospitalSchema.pre<HospitalDocument>('validate', function (next) {
+  if (!this.hospital_number) this.hospital_number = generate_hospital_number();
+  next();
+});
