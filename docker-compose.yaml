@@ -1,33 +1,23 @@
 version: "3.8"
 
 services:
-  hospital:
-    container_name: hospital
+  auth:
+    container_name: auth
     build:
-      context: ./hospital
+      context: ./auth_hospital
       dockerfile: Dockerfile.dev
-    # remember to remove the port
+    ## Using this for test
     ports:
       - "5002:3000"
     volumes:
-      - ./hospital:/usr/src/app
+      - ./auth_hospital:/usr/src/app
     environment:
-      - DATABASE_HOST=mongodb://hospital_db:27017/hospital
-    #   - STORAGE_ACCOUNT_NAME=
-    #   - STORAGE_ACCOUNT_KEY=
+      - DATABASE_HOST=mongodb://172.17.0.1:27017/auth_db
+      ## NOTE: 172.17.0.1 is my local ip address for docker to work with
     restart: "no"
+    networks:
+      - hospital
 
-  hospital_db: 
-    image: mongo
-    container_name: hospital_db
-    ports:
-      - "4003:27017"
-    volumes:
-      - ./docker/hospital_db:/data/db:rw
-    restart: always
-
-volumes:
-  hospital_db:
 networks:
   hospital:
     driver: bridge

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hospital-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth_service
+  template:
+    metadata:
+      labels:
+        app: auth_service
+    spec:
+      containers:
+      - name: auth
+        image: netflams10/auth-service
+        ports:
+        - containerPort: 3000
+        env:
+          - name: DATABASE_HOST
+            value: mongodb://hospital_db:27017/hospital
