@@ -7,11 +7,17 @@ spec:
   selector:
     matchLabels:
       app: auth_service
+  
   template:
     metadata:
       labels:
         app: auth_service
     spec:
+      hostAliases:
+      # - ip: "172.17.0.1"
+      - ip: "192.168.49.2"
+        hostnames:
+        - "my-host"
       containers:
       - name: auth
         image: netflams10/auth-service
@@ -19,4 +25,4 @@ spec:
         - containerPort: 3000
         env:
           - name: DATABASE_HOST
-            value: mongodb://hospital_db:27017/hospital
+            value: mongodb://192.168.49.2:27017/auth_db
